@@ -92,8 +92,34 @@ class _QuizScreenState extends State<QuizScreen> {
     if (_currentQuestionIndex >= _questions.length) {
       return Scaffold(
         body: Center(
-          child:
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
               Text('Quiz Finished! Your Score: $_score/${_questions.length}'),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => QuizScreen(
+                      number: widget.number,
+                      category: widget.category,
+                      difficulty: widget.difficulty,
+                      type: widget.type,
+                    ),
+                  ),
+                ),
+                child: Text("Retake Quiz"),
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                  onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => quiz()),
+                      ),
+                  child: Text("Create New Quiz")),
+            ],
+          ),
         ),
       );
     }
@@ -104,7 +130,7 @@ class _QuizScreenState extends State<QuizScreen> {
       appBar: AppBar(
         title: Text('Quiz App'),
         actions: [
-          // Real-time score display in the app bar
+          //score display
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Center(
