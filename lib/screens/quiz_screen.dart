@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/question.dart';
 import '../screens/quizoptions.dart';
 import '../services/api_service.dart';
+import '../screens/summarypage.dart';
 
 class QuizScreen extends StatefulWidget {
   final String number;
@@ -21,6 +22,8 @@ class QuizScreen extends StatefulWidget {
 
 class _QuizScreenState extends State<QuizScreen> {
   List<Question> _questions = [];
+  List<Map<String, dynamic>> answers =
+      []; //Store User's answers for quiz summary
   int _currentQuestionIndex = 0;
   int _score = 0;
   bool _loading = true;
@@ -56,6 +59,14 @@ class _QuizScreenState extends State<QuizScreen> {
       _answered = true;
       _selectedAnswer = selectedAnswer;
       final correctAnswer = _questions[_currentQuestionIndex].correctAnswer;
+
+      answers.add({
+        //adding data used for quiz summary to list 'answers'
+        "question": _questions[_currentQuestionIndex].question,
+        "userAnswer": selectedAnswer,
+        "correctAnswer": correctAnswer,
+      });
+
       if (selectedAnswer == correctAnswer) {
         _score++;
         _feedbackText = "Correct! The answer is $correctAnswer.";
@@ -118,6 +129,19 @@ class _QuizScreenState extends State<QuizScreen> {
                         MaterialPageRoute(builder: (context) => quiz()),
                       ),
                   child: Text("Create New Quiz")),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  // Navigate to the SummaryPage
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SummaryPage(answers: answers),
+                    ),
+                  );
+                },
+                child: Text("View Summary"),
+              ),
             ],
           ),
         ),
