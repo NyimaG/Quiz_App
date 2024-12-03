@@ -98,13 +98,35 @@ class _QuizScreenState extends State<QuizScreen> {
       );
     }
     final question = _questions[_currentQuestionIndex];
+    final progress = (_currentQuestionIndex + 1) /
+        _questions.length; //for progress indicator
     return Scaffold(
-      appBar: AppBar(title: Text('Quiz App')),
+      appBar: AppBar(
+        title: Text('Quiz App'),
+        actions: [
+          // Real-time score display in the app bar
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Center(
+              child: Text(
+                "Score: $_score/${_questions.length}",
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            LinearProgressIndicator(
+              value: progress,
+              backgroundColor: const Color.fromARGB(255, 241, 58, 58),
+              color: Colors.green,
+              minHeight: 10,
+            ),
             Text(
               'Question ${_currentQuestionIndex + 1}/${_questions.length}',
               style: TextStyle(fontSize: 20),
