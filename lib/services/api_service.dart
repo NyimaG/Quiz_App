@@ -1,12 +1,21 @@
+//import '../screens/quizoptions.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/question.dart';
 
 class ApiService {
-  static Future<List<Question>> fetchQuestions() async {
+  //String num, type, level, cat;
+  //ApiService({required this.num, this.type, this.level, this.cat});
+
+  static Future<List<Question>> fetchQuestions({
+    required String number,
+    required String category,
+    required String difficulty,
+    required String type,
+  }) async {
     final response = await http.get(
       Uri.parse(
-          'https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple'),
+          'https://opentdb.com/api.php?amount=$number&category=$category&difficulty=$difficulty&type=$type'),
     );
     if (response.statusCode == 200) {
       final data = json.decode(response.body);

@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
 import '../models/question.dart';
+import '../screens/quizoptions.dart';
 import '../services/api_service.dart';
 
 class QuizScreen extends StatefulWidget {
+  final String number;
+  final String category;
+  final String difficulty;
+  final String type;
+
+  QuizScreen({
+    required this.number,
+    required this.category,
+    required this.difficulty,
+    required this.type,
+  });
   @override
   _QuizScreenState createState() => _QuizScreenState();
 }
@@ -23,7 +35,12 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Future<void> _loadQuestions() async {
     try {
-      final questions = await ApiService.fetchQuestions();
+      final questions = await ApiService.fetchQuestions(
+        number: widget.number,
+        category: widget.category,
+        difficulty: widget.difficulty,
+        type: widget.type,
+      );
       setState(() {
         _questions = questions;
         _loading = false;
